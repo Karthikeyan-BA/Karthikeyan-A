@@ -1,0 +1,127 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+#Report on HR dashboard
+
+#Dataset used: HR Analytics (from kaggle)
+dat <- read.csv("HR Analytics.csv", header = TRUE, stringsAsFactors = TRUE)
+# str(dat)
+
+# Objective I :To ascertain whether a significant disparity exists in the mean age between employees who have voluntarily left the company (attrition = Yes) and those who remain (attrition = No). 
+
+# Analysis: 
+#   Variables: Age ~ Attrition
+#   Age : Non - Categorical
+#   Attrition : Categorical
+#   Test Used: t-test with assumption: Mean ages of both attrition vs. not attrition are statistically equal
+
+t.test(Age ~ Attrition, data = dat)
+
+```
+```{r}
+#Result: 
+#   Null hypothesis is rejected (p-value = 1.38e-08)
+#   Note: Mean age of current employees and departed employees are not equal.
+#   
+# Managerial implications:
+#   Understanding the age pattern of staying and leaving employees will help in framing the HR policies for specific age groups. Also, this helps in framing policing like career advancements, study leave for increasing the retention rate of employees.
+```
+
+
+
+```{r}
+# Objective II : To determine whether there is a significant distinction in the average commuting distance between employees who engage in overtime work and those who do not.
+
+# Analysis: 
+#   Variables: DistanceFromHome ~ OverTime
+#   DistanceFromHome : Non - Categorical
+#   OverTime : Categorical
+#   Test Used: t-test with assumption: Mean distance from home of both overtime vs. non-overtime are statistically equal
+
+t.test(DistanceFromHome ~ OverTime, data = dat)
+```
+```{r}
+#Result: 
+#   Null hypothesis is not rejected (p-value = 0.3242)
+#   Note: Mean distance from home of both overtime vs. non-overtime are equal.
+#   
+# Managerial implications:
+#   Knowledge of commuting distances can help in adopting the remote work policies or transportation assistance programs to accommodate employees' needs thereby potentially reducing the additional cost and improving employee satisfaction.
+```
+
+
+```{r}
+# Objective III : To examine the presence of an association between job satisfaction levels and the occurrence of employee attrition within the organization.
+
+# Analysis: 
+#   Variables: JobSatisfaction ~ Attrition
+#   JobSatisfaction : Non - Categorical
+#   Attrition : Categorical
+#   Test Used: Chi-Square test with assumption: There is no association between job satisfaction and attrition.
+
+chisq.test(table(dat$JobSatisfaction, dat$Attrition))
+
+```
+```{r}
+#Result: 
+#   Null hypothesis is rejected (p-value = 0.0005563)
+#   Note: There is an association between the Job Satisfaction and Attrition.
+#   
+# Managerial implications:
+#   It implies that job satisfaction play a major role in employee retention. Thus, Strategies need to be devised to improve job satisfaction thereby controlling the attrition rates.
+```
+
+
+```{r}
+# Objective IV :To identify the potential correlation between the tenure of employees at the company and their respective job levels.
+
+# Analysis: 
+#   Variables: YearsAtCompany  ~ JobLevel
+#   YearsAtCompany : Categorical
+#   JobLevel : Categorical
+#   Test Used: Correlation test with assumption: There is no correlation between job level and employee tenure.
+
+cor.test(dat$YearsAtCompany, dat$JobLevel)
+
+```
+
+```{r}
+#Result: 
+#   Null hypothesis is rejected (p-value = 2.2e-16)
+#   Note: There exists correlation between job level and employee tenure.
+#   
+# Managerial implications:
+#   It implies the relationship between tenure and job level can inform succession planning and career advancement strategies within the organization, Also, this particular data give positive correlation which implies as tenure increases, job level also will increase.
+```
+
+
+```{r}
+# Objective IV : To investigate the difference in the average daily rate of pay among employees based on their business travel frequency.
+
+# Analysis: 
+#   Variables: DailyRate  ~ BusinessTravel
+#   DailyRate : Categorical
+#   BusinessTravel : Non - Categorical
+#   Test Used: ANOVA with assumption: Daily Pay rate is same across all the categories of Business Travel.
+
+lm_result <- lm(DailyRate ~ BusinessTravel, data = dat)
+anova(lm_result)
+```
+```{r}
+#Result: 
+#   Null hypothesis is not rejected (p-value = 0.8354)
+#   Note: Daily Pay rate is same across all the categories of Business Travel.
+#   
+# Managerial implications:
+#   It implies that the organisation has to plan additional compensation for the employee who are travelling frequently compared to the non-travelers.
+```
+
+
+
