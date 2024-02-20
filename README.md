@@ -27,7 +27,7 @@ Reference Link: https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-a
 
 ## Dashboard Sample
 
-![](/Users/karthikeyana/Sample.png)
+![](Sample.png)
 
 ## References:
 
